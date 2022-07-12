@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/main.css">
+	<script>
+		$(()=>{
+		$(document).on('click','.add-project',function(event){
+			$('#create-project').modal('show')
+		});
+
+		$(document).on('submit','#project-form',function(event){
+				console.log('save project called')
+				//event.preventDefault();
+
+				$.ajax({
+					type: 'POST',
+					url: '/api/project',
+					data: $('#project-form').serialize(),
+					dataType: "json",
+					success: function(response){
+						//alert("a");
+						//console.log(response.Success);
+						$('#project-form')[0].reset();
+						location.reload('/project');
+         				},
+         				error: function() {
+         				}
+         			})
+			});
+		})
+	</script>
+</head>
+<body>
+	<div class="col-md-4 col-md-offset-4">
+		<div>
+			<p>Project Detail</p>
+		</div>
+		<button style="margin-left:-30px" class="add-project" type="button">Add Project</button>
+		<a style="border:2px;font-size:large" href="/tasks">Tasks</a>
+		<div>
+			<center>
+				<table class="table">
+					<thead>
+						<tr>
+						<th>Project Id</th>
+						<th scope="col">Project Name</th>
+						<th scope="col">Members</th>
+						<th scope="col">Admins</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each data}}
+						<tr>
+							<td>{{this.projectId}}</td>
+							<td>{{this.projectName}}</td>
+							<td>{{this.projectMembers}}</td>
+							<td>{{this.projectAdmins}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</center>
+		</div>
+	</div>
+	<div class="modal fade" id="create-project" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Add project</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-modal="close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			<div class="modal-body">
+				<form id="project-form" method="POST">
+					<div class="form-group">
+						<label for="projectId">Project Id</label>
+						<input type="text" name="projectId" class="form-control" id="project-id"/>
+					</div>
+					<div class="form-group">
+						<label for="projectName">Project Name</label>
+						<input type="text" name="projectName" class="form-control" id="project-name"/>
+					</div>
+					<div class="form-group">
+						<label for="project-members">Project Members</label>
+						<input type="text" name="projectMembers" class="form-control" id="project-members"/>
+					</div>
+					<div class="form-group">
+						<label for="project-admins">Project Admins</label>
+						<input type="text"  name="projectAdmins" class="form-control" id="project-admins"/>
+					</div>
+					<p>
+					</p>
+					<input type="submit" id="save-project" class="btn btn-primary" value="Add"/>
+				</form>
+			</div>
+		</div>
+		</div>
+	</div>
+</body>
+</html>

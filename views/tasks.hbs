@@ -1,0 +1,217 @@
+<html>
+    <head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/main.css">
+		<script>
+			$(()=>{
+		$(document).on('click','.add-tasks',function(event){
+			$('#create-task').modal('show')
+		});
+		$(document).on('click','.edit-tasks',function(event){
+			$('#edit-task').modal('show')
+			var taskId = $(this).attr('taskId');
+			var taskDescription = $(this).attr('taskDescription');
+			var createdBy = $(this).attr('createdBy');
+			var projectId = $(this).attr('projectId');
+			var assignedTo = $(this).attr('assignedTo')
+			var projectStatus = $(this).attr('projectStatus');
+			console.log(taskDescription,createdBy,taskId,projectId,assignedTo,projectStatus)
+			$('#taskId').val(taskId)
+			$('#task-desc').val(taskDescription)
+			$('#created-by').val(createdBy)
+			$('#project-id').val(projectId)
+			$('#assigned-to').val(assignedTo)
+			$('#project-status').val(projectStatus)
+		});
+		$(document).on('submit','#task-form',function(event){
+				console.log('task called')
+				$.ajax({
+					type: 'POST',
+					url: '/api/tasks',
+					data: $('#task-form').serialize(),
+					dataType: "json",
+					success: function(response){
+						$('#task-form')[0].reset();
+						location.reload('/taskshow');
+         				},
+         				error: function() {
+         				}
+         			})
+			});
+			$(document).on('submit','#edit-task-form',function(event){
+				console.log('task called')
+				$.ajax({
+					type: 'POST',
+					url: '/api/edit-tasks',
+					data: $('#edit-task-form').serialize(),
+					dataType: "json",
+					success: function(response){
+						$('#edit-task-form')[0].reset();
+						location.reload('/taskshow');
+         				},
+         				error: function() {
+         				}
+         			})
+			});
+		})
+		</script>
+    </head>
+    <body>
+    <div class="col-md-4 col-md-offset-4">
+            <center>
+                <h1>Tasks</h1>
+                <br/>
+                <button style="align:right;" class="add-tasks" type="button">Add Task</button>
+            </center>
+            <p></p>	
+		<div>
+			<center>
+				<table class="table" style="margin-left: -177">
+					<thead>
+						<tr>
+						<th scope="col">Task Id</th>
+						<th scope="col">Task Description</th>
+						<th scope="col">Created By</th>
+                        <th scope="col">Project Id</th>
+                        <th scope="col">Created At</th>
+                        <th sorted="col">Completed At</th>
+                        <th scope="col">Status</th>
+						<th scope="col">Assigned To</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each taskData}}
+						<tr>
+							<td>{{this.taskId}}</td>
+							<td>{{this.taskDescription}}</td>
+							<td>{{this.createdBy}}</td>
+							<td>{{this.projectId}}</td>
+							<td>{{this.createdAt}}</td>
+							<td>{{this.completedAt}}</td>
+							<td>{{this.projectStatus}}</td>
+							<td>{{this.assignedTo}}</td>
+							<td><button taskId="{{this.taskId}}" taskDescription="{{this.taskDescription}}" createdBy="{{this.createdBy}}" projectId="{{this.projectId}}"
+							assignedTo="{{this.assignedTo}}" projectStatus="{{this.projectStatus}}"
+							 style="align:right;" class="edit-tasks" type="button">Edit Status</button></td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</center>
+		</div>
+	</div>
+    <div class="modal fade" id="create-task" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Add Task</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-modal="close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			<div class="modal-body">
+				<form id="task-form" method="POST">
+					<div class="form-group">
+						<label for="taskId">Task Id</label>
+						<input type="text" name="taskId" class="form-control" id="task-id"/>
+					</div>
+					<div class="form-group">
+						<label for="taskDesciption">Task Description</label>
+						<input type="text" name="taskDescription" class="form-control" id="taskDescription"/>
+					</div>
+					<div class="form-group">
+						<label for="createdBy">Created By</label>
+						<input type="text" name="createdBy" class="form-control" id="createdBy"/>
+					</div>
+					 <div class="form-group">
+						<label for="projectName">Project Name</label>
+						<select class="form-control" id="projectId" name="projectId">
+							{{#each projectData}}
+							<option value="{{this.projectId}}">{{this.projectName}}</option>
+							{{/each}}
+						</select>
+    				</div>
+					<div class="form-group">
+						<label for="assignedTo">Assigned To</label>
+						<select class="form-control" id="assignedTo" name="assignedTo">
+							{{#each projectData}}
+							<option value="{{this.projectMembers}}">{{this.projectMembers}}</option>
+							{{/each}}
+						</select>
+    				</div>
+					 <div class="form-group">
+						<label for="status">Status</label>
+						<select class="form-control" id="status" name="status">
+							<option value="Pending">Pending</option>
+							<option value="In Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+						</select>
+    				</div>
+					<p>
+					</p>
+					<input type="submit" id="save-task" class="btn btn-primary" value="Add"/>
+				</form>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="modal fade" id="edit-task" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Change Status</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-modal="close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			<div class="modal-body">
+				<form id="edit-task-form" method="POST">
+					<div class="form-group">
+						<label for="taskId">Task Id</label>
+						<input type="text" name="taskId" class="form-control" id="taskId" readonly/>
+					</div>
+					<div class="form-group">
+						<label for="taskDescription">Task Description</label>
+						<input type="text" name="taskDescription" class="form-control" id="task-desc" readonly/>
+					</div>
+					<div class="form-group">
+						<label for="createdBy">Created By</label>
+						<input type="text" name="createdBy" class="form-control" id="created-by" readonly/>
+					</div>
+					 <div class="form-group">
+						<label for="projectName">Project Id</label>
+						<select class="form-control" id="project-id" name="projectId" disabled="true">
+							{{#each projectData}}
+							<option id="project-id" value="{{this.projectId}}">{{this.projectId}}</option>
+							{{/each}}
+						</select>
+    				</div>
+					<div class="form-group">
+						<label for="assignedTo">Assigned To</label>
+						<select class="form-control" id="assigned-to" name="assignedTo" disabled="true">
+							{{#each projectData}}
+							<option value="{{this.projectMembers}}">{{this.projectMembers}}</option>
+							{{/each}}
+						</select>
+    				</div>
+					 <div class="form-group">
+						<label for="status">Status</label>
+						<select class="form-control" id="project-status" name="status">
+							<option value="Pending">Pending</option>
+							<option value="In Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+						</select>
+    				</div>
+					<p>
+					</p>
+					<input type="submit" id="save-task" class="btn btn-primary" value="Add"/>
+				</form>
+			</div>
+		</div>
+		</div>
+	</div>
+    </body>
+</html>
