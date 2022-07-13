@@ -34,8 +34,7 @@
 					data: $('#task-form').serialize(),
 					dataType: "json",
 					success: function(response){
-						$('#task-form')[0].reset();
-						location.reload('/taskshow');
+						alert('Task has added successfuly! Please refresh the page to view tasks.')
          				},
          				error: function() {
          				}
@@ -49,8 +48,7 @@
 					data: $('#edit-task-form').serialize(),
 					dataType: "json",
 					success: function(response){
-						$('#edit-task-form')[0].reset();
-						location.reload('/taskshow');
+						alert('Task has updated successfuly! Please refresh the page to view tasks.')
          				},
          				error: function() {
          				}

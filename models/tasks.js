@@ -8,7 +8,7 @@ TaskSchema = new Schema( {
 		projectId: Number,
 		projectStatus:String,
 		createdAt:Date,
-		completedAt:String,
+		completedAt:Date,
 		assignedTo:String
 }),
 Task = mongoose.model('Task', TaskSchema);

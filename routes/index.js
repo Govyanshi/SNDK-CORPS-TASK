@@ -24,9 +24,7 @@ router.get('/tasks',function(req,res,next){
             })
 	
 })
-router.get('/taskshow', function (req, res, next) {
-	return res.render('tasks.hbs');
-});
+
 router.post('/api/tasks',function(req,res,next){
 	//console.log("inside task api",req.body);
 	var taskInfo = req.body;
@@ -163,8 +161,7 @@ router.get('/logout', function (req, res, next) {
 }
 });
 
-router.post('/api/project',function(req,res,next){
-	console.log("inside project api",req.body);
+router.post('/project',function(req,res,next){
 	var projectInfo = req.body;
 	var newProject = new Project({
 		projectId:projectInfo.projectId,

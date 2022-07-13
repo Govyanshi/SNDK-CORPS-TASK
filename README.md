@@ -4,18 +4,11 @@
 </h1>
 
 
-<p align="center">
-  <a href="/LICENSE"><img src="https://img.shields.io/github/license/guruhariharaun/Registration-and-Login-Form-in-Nodejs-and-MongoDB.svg?style=flat-square"></a>
-</p>
-
-
 ## What is this for?
-This is a Simple User Registration & Login systems app done with Node.js Framework using MongoDB(Atlas) as the data store, Express as the routing system, Body-parser as the parser for webpage, Express-session used  to track the user's session and of course Mongoose to make interacting with Mongo from Node easy.
+This is a Simple User Registration & Login systems app done with Node.js Framework using MongoDB as the data store. User can create projects after login into system and inside it user can also create tasks and update the status of tasks.
 
 ## Getting Started
 
-### Deployment
-This Project is **[Live](https://reg-login-using-nodejs-mongodb.herokuapp.com/)** on: 🌍 **https://reg-login-using-nodejs-mongodb.herokuapp.com/**
 
 ## Running the tests
 
@@ -60,39 +53,13 @@ Tools that we need to run this app:
 
 - ***[Node.js](https://nodejs.org/en/)***
 - ***[Node Package Manager](https://www.npmjs.com/get-npm)***
-- ***[MongoDB (Atlas)](https://www.mongodb.com/cloud/atlas)***
+- ***[MongoDB (On Premise)](https://www.mongodb.com/cloud/atlas)***
 
-## Installing
-```
-npm install
-```
-## Connection to DataBase Access
-At line 11 on ```./server.js``` change ***```<DB_USERNAME>```*** with your DataBase UserName & ***```<DB_PASSWORD>```*** with your DataBase Password.
+## Steps to run project
 
-## To Run the App
-```
-node server.js
-```
+1. First clone the project or download it.
+2. run npm install to install the required dependencies by project
+3. connect to mongodb database locally : mongodb://localhost:27017/
+4. create a database of name 'sndk'
+5. run command 'npm start'
 
-The server will start Running on
-+ http://localhost:3000/
-
-
-## Author
-
-| Author                | Profile Link                                       |
-| --------------------- | :------------------------------------------------- |
-| **Guru HariHaraun N** | **[Guru Roxz](https://github.com/guruhariharaun)** |
-
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used.
-* Special mention to all the Nodejs dev's on youtube 😜
-
-<br><br>
-<div align="center">
-<a href="https://www.buymeacoffee.com/YwGKcxa" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a></div>
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/guruhariharaun">Guru Roxz</a>
-</p>

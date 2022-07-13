@@ -19,14 +19,13 @@
 
 				$.ajax({
 					type: 'POST',
-					url: '/api/project',
+					url: '/project',
 					data: $('#project-form').serialize(),
 					dataType: "json",
 					success: function(response){
-						//alert("a");
-						//console.log(response.Success);
-						$('#project-form')[0].reset();
-						location.reload('/project');
+						//alert('clicked')
+						location.reload('/project')
+						//$('#project-form')[0].reset();
          				},
          				error: function() {
          				}
